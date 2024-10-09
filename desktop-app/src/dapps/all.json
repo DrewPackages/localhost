@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Uniswap",
+    "description": "Best DEX in UNIverse",
+    "logoUrl": "https://github.com/Uniswap/brand-assets/blob/main/Uniswap%20Brand%20Assets/Uniswap_icon_pink.png?raw=true",
+    "categories": ["DeFi", "DEX"]
+  },
+  {
+    "name": "Sushiswap",
+    "description": "Change your tokens to ROLLS",
+    "logoUrl": "https://github.com/Uniswap/brand-assets/blob/main/Uniswap%20Brand%20Assets/Uniswap_icon_pink.png?raw=true",
+    "categories": ["DeFi", "DEX"]
+  },
+  {
+    "name": "Curve",
+    "description": "Most stable eXchange",
+    "logoUrl": "https://github.com/Uniswap/brand-assets/blob/main/Uniswap%20Brand%20Assets/Uniswap_icon_pink.png?raw=true",
+    "categories": ["DeFi", "DEX"]
+  },
+  {
+    "name": "Aave",
+    "description": "Borrow and lend with aave",
+    "logoUrl": "https://github.com/Uniswap/brand-assets/blob/main/Uniswap%20Brand%20Assets/Uniswap_icon_pink.png?raw=true",
+    "categories": ["DeFi", "Lending"]
+  }
+]

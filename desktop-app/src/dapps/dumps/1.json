@@ -1,0 +1,24 @@
+{
+  "config": {
+    "storage": {}
+  },
+  "state": {
+    "outputIds": [],
+    "resolvedValues": {}
+  },
+  "executedSteps": 0,
+  "instructions": [
+    {
+      "type": "offchain",
+      "image": "ghcr.io/drewpackages/engine/workers/docker-compose",
+      "envs": {
+        "UNISWAP_WEB_VERSION": "web/5.40.3",
+        "PORT": "8080"
+      },
+      "workdir": ".",
+      "cmd": ["-f", "docker-compose.yaml", "up", "-d", "--build"],
+      "dind": true
+    }
+  ],
+  "formulaName": "DrewPackages/uniswap-formula@5944588637352669d91101ef2de73d7237b55858"
+}
