@@ -23,8 +23,10 @@
     "@electron-forge/plugin-vite": "^7.4.0",
     "@electron-forge/shared-types": "^7.5.0",
     "@electron/fuses": "^1.8.0",
+    "@types/dockerode": "^3.3.31",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
+    "dotenv": "^16.4.5",
     "electron": "31.4.0",
     "eslint": "^8.0.1",
     "eslint-plugin-import": "^2.25.0",
@@ -40,6 +42,7 @@
   "license": "MIT",
   "dependencies": {
     "@drewpackages/host-common": "^1.0.2",
+    "dockerode": "^4.0.2",
     "electron-squirrel-startup": "^1.0.1",
     "ssh2": "^1.15.0"
   },

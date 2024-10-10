@@ -13,6 +13,10 @@ const localhostService = {
     channelName: "dump-deployer",
     methodNames: ["executeDump"],
   }),
+  docker: registerRendererService({
+    channelName: "docker",
+    methodNames: ["isDockerAvailable"],
+  }),
 };
 
 contextBridge.exposeInMainWorld("localhostService", localhostService);
