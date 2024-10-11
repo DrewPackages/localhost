@@ -1,15 +1,17 @@
 import { List } from "antd";
-import { useSelectDapp } from "features/dapp/hooks/useSelectDapp";
+import { DappMarketplaceDescription } from "entities/dapp";
 import { DappsList, getMarketplacePage } from "features/marketplace";
 import {
   selectDappsPage,
   selectIsMarketplacePageLoading,
 } from "features/marketplace/model/slice";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "shared/model/hooks";
 
 export default function MarketplacePage() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(getMarketplacePage({ pageNum: 0, pageSize: 15 }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -17,7 +19,12 @@ export default function MarketplacePage() {
 
   const [selectedPage] = useState(0);
 
-  const selectDapp = useSelectDapp();
+  const selectDapp = useCallback(
+    (dapp: DappMarketplaceDescription) => {
+      navigate(`/dapp/${dapp.id}`);
+    },
+    [navigate]
+  );
 
   const page = useAppSelector(selectDappsPage(selectedPage));
   const isLoading = useAppSelector(selectIsMarketplacePageLoading);

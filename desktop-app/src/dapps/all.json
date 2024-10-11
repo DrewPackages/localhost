@@ -1,25 +1,25 @@
 [
   {
     "name": "Uniswap",
-    "description": "Best DEX in UNIverse",
+    "description": "Uniswap is a decentralized exchange (DEX) and automated market maker (AMM) built on the Ethereum blockchain. It allows users to swap, trade, and provide liquidity for a wide variety of ERC-20 tokens without relying on a central intermediary. Uniswap operates through liquidity pools, where users can contribute tokens to facilitate trading, earning a share of transaction fees in return. As one of the most popular and widely used dapps in the decentralized finance (DeFi) ecosystem, Uniswap plays a critical role in enabling decentralized trading, fostering liquidity, and allowing users to engage in permissionless, trustless financial transactions. It has contributed significantly to the rise of DeFi by simplifying access to a broad range of digital assets and empowering users with greater control over their trades and assets.",
     "logoUrl": "https://github.com/Uniswap/brand-assets/blob/main/Uniswap%20Brand%20Assets/Uniswap_icon_pink.png?raw=true",
     "categories": ["DeFi", "DEX"]
   },
   {
     "name": "Sushiswap",
-    "description": "Change your tokens to ROLLS",
+    "description": "SushiSwap is a decentralized exchange (DEX) and automated market maker (AMM) that operates on the Ethereum blockchain, similar to Uniswap. However, it distinguishes itself by offering additional features such as yield farming, staking, and governance through its native token, SUSHI. SushiSwap allows users to trade and swap ERC-20 tokens, provide liquidity to earn fees, and stake SUSHI tokens to participate in protocol governance or earn rewards. By integrating yield farming and staking into its platform, SushiSwap has become a key player in the decentralized finance (DeFi) ecosystem, promoting liquidity and incentivizing user participation. Its community-driven governance model further empowers users, while its multi-chain capabilities have extended its reach beyond Ethereum, enhancing DeFi’s accessibility and versatility.",
     "logoUrl": "https://github.com/Uniswap/brand-assets/blob/main/Uniswap%20Brand%20Assets/Uniswap_icon_pink.png?raw=true",
     "categories": ["DeFi", "DEX"]
   },
   {
     "name": "Curve",
-    "description": "Most stable eXchange",
+    "description": "Curve is a decentralized exchange (DEX) specifically designed for efficient trading of stablecoins and other low-volatility assets. Built on the Ethereum blockchain, Curve leverages an automated market maker (AMM) model optimized for low slippage and reduced fees, making it ideal for users looking to trade stablecoins like USDC, DAI, or USDT. It also supports liquidity pools where users can deposit stablecoins to earn a portion of the trading fees, while often benefiting from additional rewards through Curve's native token, CRV. Curve plays a significant role in the decentralized finance (DeFi) ecosystem by providing deep liquidity for stablecoins and other correlated assets, making it a crucial platform for stablecoin trading and yield farming. Its governance, driven by CRV token holders, allows the community to vote on protocol upgrades and improvements, further reinforcing its position in the DeFi landscape.",
     "logoUrl": "https://github.com/Uniswap/brand-assets/blob/main/Uniswap%20Brand%20Assets/Uniswap_icon_pink.png?raw=true",
     "categories": ["DeFi", "DEX"]
   },
   {
     "name": "Aave",
-    "description": "Borrow and lend with aave",
+    "description": "Aave is a decentralized lending and borrowing protocol that operates on the Ethereum blockchain, enabling users to lend, borrow, and earn interest on a wide range of cryptocurrencies. As a non-custodial money market, Aave allows users to deposit assets into liquidity pools, which are then used to provide loans to other users. Lenders earn interest, while borrowers can access overcollateralized or undercollateralized loans, including features like flash loans—instant, uncollateralized loans that must be repaid within a single transaction. Aave's role in the decentralized finance (DeFi) ecosystem is significant, as it facilitates access to decentralized liquidity, allows for efficient capital utilization, and empowers users with control over their financial activities. Aave’s native governance token, AAVE, allows token holders to participate in protocol governance, shaping the future direction of the platform.",
     "logoUrl": "https://github.com/Uniswap/brand-assets/blob/main/Uniswap%20Brand%20Assets/Uniswap_icon_pink.png?raw=true",
     "categories": ["DeFi", "Lending"]
   }

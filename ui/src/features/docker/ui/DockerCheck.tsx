@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useCallback, useEffect } from "react";
-import { Spin, Button } from "antd";
+import { Spin, Button, Typography } from "antd";
 import { useAppDispatch, useAppSelector } from "shared/model/hooks";
 import { selectDockerAvailability } from "../model/slice";
 import { checkDockerAvailability } from "../api/check";
@@ -34,9 +34,9 @@ export const DockerCheck: React.FC<PropsWithChildren> = ({ children }) => {
     return (
       <div className="flex justify-around items-center h-screen w-screen flex-col">
         <div>
-          <h3 className="text-3xl font-bold mb-6">
+          <Typography.Title level={3} className="text-3xl font-bold mb-6">
             Ooops! We can't connect the docker
-          </h3>
+          </Typography.Title>
           <div className="flex justify-center items-center w-full h-full">
             <Button onClick={checkAgainClickHandler}>Try again</Button>
           </div>
@@ -48,7 +48,9 @@ export const DockerCheck: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <div className="flex justify-around items-center h-screen w-screen flex-col">
       <div>
-        <h3 className="text-3xl font-bold mb-6">Checking your docker</h3>
+        <Typography.Title level={3} className="text-3xl font-bold mb-6">
+          Checking your docker
+        </Typography.Title>
         <div className="flex justify-center items-center w-full h-full">
           <Spin size="large" />
         </div>

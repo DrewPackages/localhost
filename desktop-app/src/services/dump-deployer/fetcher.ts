@@ -2,7 +2,7 @@ import { normalize, join } from "node:path";
 import { app } from "electron";
 
 export const FORMULAS_DIR = normalize(
-  join(app.getPath("userData"), `/.drew-localhost/formulas`)
+  join(app.getPath("appData"), `/.drew-localhost/formulas`)
 );
 
 export function getFormulaPath(formulaName: string): string {

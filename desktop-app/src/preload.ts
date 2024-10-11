@@ -7,11 +7,11 @@ import { registerRendererService } from "./messaging/registerRendererService";
 const localhostService = {
   marketplace: registerRendererService({
     channelName: "dapp-marketplace",
-    methodNames: ["getDappsPage", "getFormulaDump"],
+    methodNames: ["getDappsPage", "getDappInfo"],
   }),
   deployer: registerRendererService({
     channelName: "dump-deployer",
-    methodNames: ["executeDump"],
+    methodNames: ["getDeploymentStatus", "deploy"],
   }),
   docker: registerRendererService({
     channelName: "docker",

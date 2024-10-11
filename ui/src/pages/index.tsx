@@ -4,6 +4,7 @@ import React, { lazy } from "react";
 import AppLayout from "./_layout";
 
 const MarketplacePage = lazy(() => import("./marketplace"));
+const DappInfoPage = lazy(() => import("./dapp"));
 
 export const Routing = () => {
   return (
@@ -13,6 +14,14 @@ export const Routing = () => {
         element={
           <AppLayout>
             <MarketplacePage />
+          </AppLayout>
+        }
+      />
+      <Route
+        path="/dapp/:dappId"
+        element={
+          <AppLayout>
+            <DappInfoPage />
           </AppLayout>
         }
       />

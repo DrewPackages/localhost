@@ -4,6 +4,7 @@ import { wrapMainService } from "./messaging/wrapMainService";
 import { DappMarketplaceService } from "./services/marketplace/service";
 import { DumpDeployerService } from "./services/dump-deployer/service";
 import { DockerService } from "./services/docker/service";
+import { DeploymentsService } from "./services/deployments/service";
 
 const createWindow = () => {
   // Create the browser window.
@@ -16,7 +17,10 @@ const createWindow = () => {
   });
 
   wrapMainService(new DappMarketplaceService(), "dapp-marketplace");
-  wrapMainService(new DumpDeployerService(), "dump-deployer");
+  wrapMainService(
+    new DeploymentsService(new DumpDeployerService()),
+    "dump-deployer"
+  );
   wrapMainService(new DockerService(), "docker");
 
   // and load the index.html of the app.

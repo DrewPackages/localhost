@@ -1,9 +1,7 @@
-import {
-  type DappMarketplaceDescription,
-  type FormulaExecutionDump,
-} from "entities/dapp";
+import { type DappMarketplaceDescription, type DappInfo } from "entities/dapp";
 import { type ApiDappMarketpaceService } from "entities/dapp/lib/types";
 import defaultDump from "./default-dump.json";
+import { type FormulaExecutionDump } from "@drewpackages/host-common";
 
 const hardcodedDapps: Array<DappMarketplaceDescription> = [
   {
@@ -62,7 +60,13 @@ export const marketplace: ApiDappMarketpaceService = {
     };
   },
 
-  async getFormulaDump(): Promise<FormulaExecutionDump> {
-    return defaultDump as FormulaExecutionDump;
+  async getDappInfo(dappId): Promise<DappInfo> {
+    const result = {
+      dump: defaultDump as FormulaExecutionDump,
+      info: hardcodedDapps.find((dapp) => dapp.id === dappId)!,
+    };
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(result), 3000);
+    });
   },
 };

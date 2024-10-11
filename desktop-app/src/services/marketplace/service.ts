@@ -47,7 +47,13 @@ export class DappMarketplaceService {
     };
   }
 
-  async getFormulaDump(dappId: string): Promise<FormulaExecutionDump> {
-    return this.loadDappDump(dappId);
+  async getDappInfo(
+    dappId: string
+  ): Promise<{ info: DappMarketplaceDescription; dump: FormulaExecutionDump }> {
+    const loadedDapps = await this.loadAllDapps();
+    return {
+      info: loadedDapps[Number.parseInt(dappId)],
+      dump: await this.loadDappDump(dappId),
+    };
   }
 }
