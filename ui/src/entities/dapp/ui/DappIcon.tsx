@@ -3,7 +3,7 @@ import React from "react";
 
 interface IDappIconProps {
   imageUrl: string;
-  name: string;
+  name?: string;
   active?: boolean;
   onClick?: () => void;
 }
@@ -27,7 +27,7 @@ export const DappIcon = ({
         style={{ backgroundColor: !active ? "gray" : undefined }}
         onClick={onClick}
       />
-      <Typography.Text onClick={onClick}>{name}</Typography.Text>
+      {name && <Typography.Text onClick={onClick}>{name}</Typography.Text>}
     </Space>
   );
 };

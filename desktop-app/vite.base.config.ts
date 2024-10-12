@@ -3,6 +3,9 @@ import type { AddressInfo } from "node:net";
 import type { ConfigEnv, Plugin, UserConfig } from "vite";
 import pkg from "./package.json";
 
+import { config } from "dotenv";
+config();
+
 export const builtins = [
   "electron",
   ...builtinModules.map((m) => [m, `node:${m}`]).flat(),
@@ -59,7 +62,10 @@ export function getBuildDefine(env: ConfigEnv<"build">) {
     const def = {
       [VITE_DEV_SERVER_URL]:
         command === "serve"
-          ? JSON.stringify(process.env[VITE_DEV_SERVER_URL])
+          ? JSON.stringify(
+              process.env.VITE_EXTERNAL_DEV_SERVER ||
+                process.env[VITE_DEV_SERVER_URL]
+            )
           : undefined,
       [VITE_NAME]: JSON.stringify(name),
     };

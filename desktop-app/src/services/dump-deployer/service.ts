@@ -9,7 +9,9 @@ import {
 import { FORMULAS_DIR, getFormulaPath } from "./fetcher";
 
 export class DumpDeployerService {
-  async executeDump(dump: FormulaExecutionDump) {
+  async executeDump(
+    dump: FormulaExecutionDump
+  ): Promise<FormulaExecutionDump["state"]> {
     const state = new StateStorage();
     dump && state.fromDump(dump.state);
     const config = new ConfigStorage();
@@ -40,5 +42,7 @@ export class DumpDeployerService {
         await offchain.runStage(formulaNameWithoutRev, instruction);
       }
     }
+
+    return state.toDump();
   }
 }

@@ -1,4 +1,9 @@
-import { DappMarketplaceDescription, FormulaExecutionDump } from "../model";
+import { type FormulaExecutionDump } from "@drewpackages/host-common";
+import {
+  DappMarketplaceDescription,
+  DappInfo,
+  DeploymentStatus,
+} from "../types";
 
 export interface ApiDappMarketpaceService {
   getDappsPage(
@@ -10,5 +15,11 @@ export interface ApiDappMarketpaceService {
     }>
   ): Promise<{ items: Array<DappMarketplaceDescription>; totalItems: number }>;
 
-  getFormulaDump(dappId: string): Promise<FormulaExecutionDump>;
+  getDappInfo(dappId: string): Promise<DappInfo>;
+}
+
+export interface ApiDeploymentsService {
+  deploy(dappId: string, dump: FormulaExecutionDump): Promise<void>;
+
+  getDeploymentStatus(dappId: string): Promise<DeploymentStatus>;
 }

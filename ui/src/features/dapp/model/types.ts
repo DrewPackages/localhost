@@ -1,12 +1,11 @@
-import {
-  DappMarketplaceDescription,
-  FormulaExecutionDump,
-} from "entities/dapp";
+import { DappInfo } from "entities/dapp";
 
 export interface SelectedDappState {
-  selectedDapp?: DappMarketplaceDescription;
-  dump: {
-    dumpLoading: boolean;
-    downloadedDump?: FormulaExecutionDump;
+  dappLoading: boolean;
+  dappInfo?: DappInfo;
+  deployment: {
+    isDeploymentLoading: boolean;
+    isDeployed?: boolean;
   };
+  deployRequestInFlight?: boolean;
 }
