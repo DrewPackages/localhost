@@ -17,7 +17,7 @@ const hardcodedDapps: Array<DappMarketplaceDescription> = [
     name: "Sushiswap",
     description: "Change your tokens to ROLLS",
     logoUrl:
-      "https://github.com/Uniswap/brand-assets/blob/main/Uniswap%20Brand%20Assets/Uniswap_icon_pink.png?raw=true",
+      "https://github.com/sushiswap/art/blob/master/sushi/logo-512x512.png?raw=true",
     categories: ["DeFi", "DEX"],
   },
   {
@@ -25,7 +25,7 @@ const hardcodedDapps: Array<DappMarketplaceDescription> = [
     name: "Curve",
     description: "Most stable eXchange",
     logoUrl:
-      "https://github.com/Uniswap/brand-assets/blob/main/Uniswap%20Brand%20Assets/Uniswap_icon_pink.png?raw=true",
+      "https://github.com/curvefi/curve-frontend/blob/main/apps/main/public/images/logo.png?raw=true",
     categories: ["DeFi", "DEX"],
   },
   {
@@ -33,7 +33,7 @@ const hardcodedDapps: Array<DappMarketplaceDescription> = [
     name: "Aave",
     description: "Borrow and lend with aave",
     logoUrl:
-      "https://github.com/Uniswap/brand-assets/blob/main/Uniswap%20Brand%20Assets/Uniswap_icon_pink.png?raw=true",
+      "https://github.com/aave/interface/blob/main/public/aave.svg?raw=true",
     categories: ["DeFi", "Lending"],
   },
 ];
