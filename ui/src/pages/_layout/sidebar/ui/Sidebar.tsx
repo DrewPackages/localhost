@@ -9,6 +9,11 @@ export const Sidebar: React.FC = () => {
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
 
+  const isSidebarHidden = location.state?.isSidebarHidden;
+
+  if (isSidebarHidden) {
+    return <></>;
+  }
   return (
     <Sider
       collapsible
