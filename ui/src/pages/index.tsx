@@ -1,5 +1,5 @@
 // Or use @loadable/component, as part of the tutorial - uncritically
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import React, { lazy } from "react";
 import AppLayout from "./_layout";
 
