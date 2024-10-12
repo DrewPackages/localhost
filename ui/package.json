@@ -51,7 +51,7 @@
   "devDependencies": {
     "@craco/craco": "^7.1.0",
     "@craco/types": "^7.1.0",
-    "@drewpackages/host-common": "workspace:^",
+    "@drewpackages/host-common": "^1.0.4",
     "@types/compose-function": "^0.0.33",
     "prop-types": "^15.8.1",
     "tailwindcss": "^3.4.10",
