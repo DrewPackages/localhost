@@ -22,7 +22,13 @@ export default function MarketplacePage() {
 
   const selectDapp = useCallback(
     (dapp: DappMarketplaceDescription) => {
-      navigate(`/dapp/${dapp.id}`);
+      navigate(`/dapp/${dapp.id}`, {
+        state: {
+          back: {
+            backUrl: "/",
+          },
+        },
+      });
     },
     [navigate]
   );
@@ -57,7 +63,11 @@ export default function MarketplacePage() {
           className="first-of-type:mb-2 first-of-type:pl-10"
           renderItem={([category, items], index) => (
             <List.Item key={index}>
-              <DappsList page={items} title={category} onDappClick={selectDapp} />
+              <DappsList
+                page={items}
+                title={category}
+                onDappClick={selectDapp}
+              />
             </List.Item>
           )}
         />
