@@ -1,7 +1,10 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { whenDev, whenProd } from "@craco/craco";
+import { when, whenDev } from "@craco/craco";
 import { CracoConfig } from "@craco/types";
 import path from "path";
+
+const isElectronDevServer = process.env.NODE_ENV === "electron";
+const isProd = process.env.NODE_ENV === "production";
 
 const config = (): CracoConfig => ({
   webpack: {
@@ -9,7 +12,7 @@ const config = (): CracoConfig => ({
       localhostService$: path.resolve("src", "_dev", "index.ts"),
     })),
     configure: {
-      externals: whenProd(() => ({
+      externals: when(isProd || isElectronDevServer, () => ({
         localhostService: "window localhostService",
       })),
     },

@@ -1,10 +1,11 @@
 // Or use @loadable/component, as part of the tutorial - uncritically
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import React, { lazy } from "react";
 import AppLayout from "./_layout";
 
 const MarketplacePage = lazy(() => import("./marketplace"));
 const DappInfoPage = lazy(() => import("./dapp"));
+const RunningAppsPage = lazy(() => import("./running-apps"));
 
 export const Routing = () => {
   return (
@@ -14,6 +15,15 @@ export const Routing = () => {
         element={
           <AppLayout>
             <MarketplacePage />
+          </AppLayout>
+        }
+      />
+
+      <Route
+        path="/running-apps"
+        element={
+          <AppLayout>
+            <RunningAppsPage />
           </AppLayout>
         }
       />

@@ -40,5 +40,5 @@ export function useErrorDisplay<T>(param: UseErrorDisplayParam<T>): void {
         errors.display(param.err as IDisplayableError);
       }
     }
-  }, [param.err, param.isError]);
+  }, [errors, param]);
 }

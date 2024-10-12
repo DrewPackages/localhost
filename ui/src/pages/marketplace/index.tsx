@@ -8,6 +8,7 @@ import {
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "shared/model/hooks";
+import { Sidebar } from "features/sidebar";
 
 export default function MarketplacePage() {
   const dispatch = useAppDispatch();
@@ -45,17 +46,22 @@ export default function MarketplacePage() {
   }, [page]);
 
   return (
-    <List
-      split={false}
-      itemLayout="vertical"
-      loading={isLoading}
-      dataSource={categories}
-      className="first-of-type:mb-2 first-of-type:pl-10"
-      renderItem={([category, items], index) => (
-        <List.Item key={index}>
-          <DappsList page={items} title={category} onDappClick={selectDapp} />
-        </List.Item>
-      )}
-    />
+    <div className="flex">
+      <Sidebar />
+      <div className="flex-grow">
+        <List
+          split={false}
+          itemLayout="vertical"
+          loading={isLoading}
+          dataSource={categories}
+          className="first-of-type:mb-2 first-of-type:pl-10"
+          renderItem={([category, items], index) => (
+            <List.Item key={index}>
+              <DappsList page={items} title={category} onDappClick={selectDapp} />
+            </List.Item>
+          )}
+        />
+      </div>
+    </div>
   );
 }
