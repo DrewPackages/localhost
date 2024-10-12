@@ -8,12 +8,12 @@ export default function AppLayout({ children }: PropsWithChildren) {
   return (
     <Layout>
       <Layout.Header></Layout.Header>
-        <div className="flex">
+      <Layout>
           <Sidebar />
-          <div className="flex-grow">
+          <Layout>
             <AppContent>{children}</AppContent>
-          </div>
-        </div>
+          </Layout>
+        </Layout>
     </Layout>
   );
 }

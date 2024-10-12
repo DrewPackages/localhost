@@ -1,23 +1,33 @@
-import React from 'react';
-import { Menu } from 'antd';
+import React, { useState } from 'react';
+import { Layout, Menu } from 'antd';
 import { HomeOutlined, AppstoreOutlined } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
 
+const { Sider } = Layout;
+
 export const Sidebar: React.FC = () => {
   const location = useLocation();
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <Menu
-      mode="inline"
-      selectedKeys={[location.pathname]}
-      style={{ width: 200, height: '100vh' }}
+    <Sider
+      collapsible
+      collapsed={collapsed}
+      onCollapse={(value) => setCollapsed(value)}
+      className="h-screen"
     >
-      <Menu.Item key="/" icon={<HomeOutlined />}>
-        <Link to="/">Home</Link>
-      </Menu.Item>
-      <Menu.Item key="/running-apps" icon={<AppstoreOutlined />}>
-        <Link to="/running-apps">Running Apps</Link>
-      </Menu.Item>
-    </Menu>
+      <Menu
+        mode="inline"
+        selectedKeys={[location.pathname]}
+        className="mt-4"
+      >
+        <Menu.Item key="/" icon={<HomeOutlined />}>
+          <Link to="/">Home</Link>
+        </Menu.Item>
+        <Menu.Item key="/running-apps" icon={<AppstoreOutlined />}>
+          <Link to="/running-apps">Running Apps</Link>
+        </Menu.Item>
+      </Menu>
+    </Sider>
   );
 };
