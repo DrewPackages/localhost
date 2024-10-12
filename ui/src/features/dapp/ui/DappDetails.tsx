@@ -56,7 +56,7 @@ export const DappDetails = ({ dappId }: IDappDetailsProps) => {
           ))}
         </Space>
 
-        <Typography.Paragraph className="mt-8">
+        <Typography.Paragraph className="mx-8">
           {dappInfo.info.description}
         </Typography.Paragraph>
       </Space>
