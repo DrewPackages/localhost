@@ -1,4 +1,4 @@
-import { Avatar, Space, Typography } from "antd";
+import { Image, Space, Typography } from "antd";
 import React from "react";
 
 interface IDappIconProps {
@@ -20,11 +20,11 @@ export const DappIcon = ({
       className="flex justify-center"
       classNames={{ item: "self-center" }}
     >
-      <Avatar
-        shape="square"
-        size="large"
+      <Image
+        height={56}
+        preview={false}
         src={imageUrl}
-        style={{ backgroundColor: !active ? "gray" : undefined }}
+        alt={name}
         onClick={onClick}
       />
       {name && <Typography.Text onClick={onClick}>{name}</Typography.Text>}
