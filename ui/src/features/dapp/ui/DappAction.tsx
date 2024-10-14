@@ -1,5 +1,6 @@
 import { FormulaExecutionDump } from "@drewpackages/host-common";
 import { useCallback, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "shared/model/hooks";
 import { getDeploymentStatus } from "../api/deploymentStatus";
 import {
@@ -16,6 +17,8 @@ interface IDappActionProps {
 
 export function DappActions({ dappId, dump }: IDappActionProps) {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     dispatch(getDeploymentStatus({ dappId }));
@@ -32,11 +35,24 @@ export function DappActions({ dappId, dump }: IDappActionProps) {
     selectDappDeploymentInfo
   );
 
-  const onClick = useCallback(() => {
+  const onDeployClick = useCallback(() => {
     if (dump) {
       dispatch(deploy({ dappId, dump }));
     }
   }, [dappId, dump, dispatch]);
+
+  const onOpenAddClick = useCallback(() => {
+      navigate(`/webpage`, {
+        state: {
+          back: {
+            backUrl: pathname,
+          },
+          isSidebarHidden: true
+        },
+      });
+    },
+    [navigate]
+  );
 
   if (isDeploymentLoading || dump == null) {
     return <Spin size="small" />;
@@ -52,8 +68,21 @@ export function DappActions({ dappId, dump }: IDappActionProps) {
   }
 
   return (
-    <Button type={isDeployed ? "dashed" : "primary"} onClick={onClick}>
-      {isDeployed ? "Redeploy" : "Deploy"}
-    </Button>
+    <Space size="middle">
+      <Button 
+        type={isDeployed ? "dashed" : "primary"} 
+        onClick={onDeployClick}
+      >
+        {isDeployed ? "Redeploy" : "Deploy"}
+      </Button>
+      { isDeployed && 
+        <Button 
+          type={"primary"} 
+          onClick={onOpenAddClick}
+        >
+          {"Open app"}
+        </Button>
+      }
+    </Space>
   );
 }
