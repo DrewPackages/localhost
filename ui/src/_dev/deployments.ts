@@ -27,4 +27,12 @@ export class DeploymentsService implements ApiDeploymentsService {
       );
     });
   }
+
+  getDappDeploymentPorts(
+    dappId: string
+  ): Promise<Array<{ name: string; port: number }>> {
+    return new Promise((resolve) =>
+      setTimeout(() => resolve([{ name: "frontend", port: 8080 }]), 3000)
+    );
+  }
 }

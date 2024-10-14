@@ -3,11 +3,15 @@ import { SelectedDappState } from "./types";
 import { getDappInfo } from "../api/dappInfo";
 import { getDeploymentStatus } from "../api/deploymentStatus";
 import { deploy } from "../api/deploy";
+import { getPorts } from "../api/getPorts";
 
 const initialState: SelectedDappState = {
   dappLoading: false,
   deployment: {
     isDeploymentLoading: false,
+  },
+  ports: {
+    isPortsLoading: false,
   },
 };
 
@@ -46,6 +50,16 @@ export const dappSlice = createSlice({
       })
       .addCase(deploy.rejected, (state) => {
         state.deployRequestInFlight = false;
+      })
+      .addCase(getPorts.pending, (state) => {
+        state.ports.isPortsLoading = true;
+      })
+      .addCase(getPorts.rejected, (state) => {
+        state.ports.isPortsLoading = false;
+      })
+      .addCase(getPorts.fulfilled, (state, { payload }) => {
+        state.ports.isPortsLoading = false;
+        state.ports.deploymentPorts = payload;
       }),
 });
 
@@ -56,3 +70,4 @@ export const selectDappDeploymentInfo = (state: RootState) =>
   state.dapp.deployment;
 export const selectDappDeploymentRequestStatus = (state: RootState) =>
   Boolean(state.dapp.deployRequestInFlight);
+export const selectDappDeploymentPorts = (state: RootState) => state.dapp.ports;

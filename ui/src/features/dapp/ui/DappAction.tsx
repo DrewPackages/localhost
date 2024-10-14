@@ -9,6 +9,7 @@ import {
 } from "../model/slice";
 import { Button, Space, Spin, Typography } from "antd";
 import { deploy } from "../api/deploy";
+import { getPorts } from "../api/getPorts";
 
 interface IDappActionProps {
   dappId: string;
@@ -37,7 +38,9 @@ export function DappActions({ dappId, dump }: IDappActionProps) {
 
   const onDeployClick = useCallback(() => {
     if (dump) {
-      dispatch(deploy({ dappId, dump }));
+      dispatch(deploy({ dappId, dump })).then(() =>
+        dispatch(getPorts({ dappId }))
+      );
     }
   }, [dappId, dump, dispatch]);
 

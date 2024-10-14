@@ -4,13 +4,19 @@ import { DeployedDappsStore, DeploymentStatus } from "./type";
 import { normalize, join } from "node:path";
 import { readFile, exists, writeFile } from "fs-extra";
 import { app } from "electron";
+import { DockerService } from "../docker/service";
+import { DappMarketplaceService } from "../marketplace/service";
 
 const DEPLOYED_DAPPS_STORE_PATH = normalize(
   join(app.getPath("appData"), "deployed-dapps.json")
 );
 
 export class DeploymentsService {
-  constructor(private readonly dumpDeployer: DumpDeployerService) {}
+  constructor(
+    private readonly dumpDeployer: DumpDeployerService,
+    private readonly marketplaceService: DappMarketplaceService,
+    private readonly dockerService: DockerService
+  ) {}
 
   private async loadDeployedDappsStote(): Promise<DeployedDappsStore> {
     const storeFileExists = await exists(DEPLOYED_DAPPS_STORE_PATH);
@@ -45,5 +51,13 @@ export class DeploymentsService {
     const store = await this.loadDeployedDappsStote();
 
     return store?.[dappId] || { status: "not-found" };
+  }
+
+  async getDappDeploymentPorts(
+    dappId: string
+  ): Promise<Array<{ name: string; port: number }>> {
+    const { dump } = await this.marketplaceService.getDappInfo(dappId);
+
+    return this.dockerService.getAvailablePortsForDump(dump);
   }
 }

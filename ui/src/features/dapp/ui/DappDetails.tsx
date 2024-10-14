@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { getDappInfo } from "../api/dappInfo";
 import { DappIcon } from "entities/dapp";
 import { DappActions } from "./DappAction";
+import { VisitButton } from "./VisitButton";
 
 interface IDappDetailsProps {
   dappId: string;
@@ -62,7 +63,10 @@ export const DappDetails = ({ dappId }: IDappDetailsProps) => {
       </Space>
       <Affix offsetBottom={90} target={() => container}>
         <Card className="w-full px-10">
-          <DappActions dappId={dappId} dump={dappInfo.dump} />
+          <Space>
+            <DappActions dappId={dappId} dump={dappInfo.dump} />
+            <VisitButton dappId={dappId} />
+          </Space>
         </Card>
       </Affix>
     </>

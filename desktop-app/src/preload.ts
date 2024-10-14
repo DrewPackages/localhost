@@ -11,11 +11,15 @@ const localhostService = {
   }),
   deployer: registerRendererService({
     channelName: "dump-deployer",
-    methodNames: ["getDeploymentStatus", "deploy"],
+    methodNames: ["getDeploymentStatus", "deploy", "getDappDeploymentPorts"],
   }),
   docker: registerRendererService({
     channelName: "docker",
     methodNames: ["isDockerAvailable"],
+  }),
+  urlService: registerRendererService({
+    channelName: "utils-url",
+    methodNames: ["openUrl"],
   }),
 };
 
