@@ -8,6 +8,10 @@ export interface DappDeploymentStatusRequest {
   dappId: string;
 }
 
+export interface DappDeploymentPortsRequest {
+  dappId: string;
+}
+
 export interface DeployRequest {
   dappId: string;
   dump: FormulaExecutionDump;

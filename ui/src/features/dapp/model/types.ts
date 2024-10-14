@@ -8,4 +8,8 @@ export interface SelectedDappState {
     isDeployed?: boolean;
   };
   deployRequestInFlight?: boolean;
+  ports: {
+    isPortsLoading: boolean;
+    deploymentPorts?: Array<{ name: string; port: number }>;
+  };
 }
