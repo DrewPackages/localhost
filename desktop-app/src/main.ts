@@ -33,7 +33,7 @@ const createWindow = () => {
   }
 
   // Open the DevTools.
-  mainWindow.on("show", () => mainWindow.webContents.openDevTools());
+  // mainWindow.on("show", () => mainWindow.webContents.openDevTools());
 };
 
 // This method will be called when Electron has finished

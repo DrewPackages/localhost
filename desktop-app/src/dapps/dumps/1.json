@@ -13,12 +13,13 @@
       "image": "ghcr.io/drewpackages/engine/workers/docker-compose",
       "envs": {
         "UNISWAP_WEB_VERSION": "web/5.40.3",
-        "PORT": "8080"
+        "PORT": "8080",
+        "DOCKER_COMPOSE_PROJECT_NAME": "drew-uniswap"
       },
       "workdir": ".",
       "cmd": ["-f", "docker-compose.yaml", "up", "-d", "--build"],
       "dind": true
     }
   ],
-  "formulaName": "DrewPackages/uniswap-formula@5944588637352669d91101ef2de73d7237b55858"
+  "formulaName": "DrewPackages/uniswap-formula@b3fe37161ba0a3626e820bc2f6220bcbd10be749"
 }
