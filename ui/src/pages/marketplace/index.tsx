@@ -24,9 +24,9 @@ export default function MarketplacePage() {
       navigate(`/dapp/${dapp.id}`, {
         state: {
           back: {
-            backUrl: "/",
+            navigateBack: true,
           },
-          isSidebarHidden: true
+          isSidebarHidden: true,
         },
       });
     },
@@ -60,11 +60,7 @@ export default function MarketplacePage() {
       className="first-of-type:mb-2 first-of-type:pl-10"
       renderItem={([category, items], index) => (
         <List.Item key={index}>
-          <DappsList
-            page={items}
-            title={category}
-            onDappClick={selectDapp}
-          />
+          <DappsList page={items} title={category} onDappClick={selectDapp} />
         </List.Item>
       )}
     />

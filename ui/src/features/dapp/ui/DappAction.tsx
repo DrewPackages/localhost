@@ -42,17 +42,15 @@ export function DappActions({ dappId, dump }: IDappActionProps) {
   }, [dappId, dump, dispatch]);
 
   const onOpenAddClick = useCallback(() => {
-      navigate(`/webpage`, {
-        state: {
-          back: {
-            backUrl: pathname,
-          },
-          isSidebarHidden: true
+    navigate(`/webpage`, {
+      state: {
+        back: {
+          navigateBack: true,
         },
-      });
-    },
-    [navigate]
-  );
+        isSidebarHidden: true,
+      },
+    });
+  }, [navigate]);
 
   if (isDeploymentLoading || dump == null) {
     return <Spin size="small" />;
@@ -69,20 +67,14 @@ export function DappActions({ dappId, dump }: IDappActionProps) {
 
   return (
     <Space size="middle">
-      <Button 
-        type={isDeployed ? "dashed" : "primary"} 
-        onClick={onDeployClick}
-      >
+      <Button type={isDeployed ? "dashed" : "primary"} onClick={onDeployClick}>
         {isDeployed ? "Redeploy" : "Deploy"}
       </Button>
-      { isDeployed && 
-        <Button 
-          type={"primary"} 
-          onClick={onOpenAddClick}
-        >
+      {isDeployed && (
+        <Button type={"primary"} onClick={onOpenAddClick}>
           {"Open app"}
         </Button>
-      }
+      )}
     </Space>
   );
 }
