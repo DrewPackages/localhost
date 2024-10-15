@@ -17,10 +17,6 @@ const localhostService = {
     channelName: "docker",
     methodNames: ["isDockerAvailable"],
   }),
-  urlService: registerRendererService({
-    channelName: "utils-url",
-    methodNames: ["openUrl"],
-  }),
 };
 
 contextBridge.exposeInMainWorld("localhostService", localhostService);
