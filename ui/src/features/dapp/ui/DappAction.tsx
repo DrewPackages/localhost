@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "shared/model/hooks";
 import { getDeploymentStatus } from "../api/deploymentStatus";
 import {
   selectDappDeploymentInfo,
+  selectDappDeploymentPorts,
   selectDappDeploymentRequestStatus,
 } from "../model/slice";
 import { Button, Space, Spin, Typography } from "antd";
@@ -19,12 +20,21 @@ interface IDappActionProps {
 export function DappActions({ dappId, dump }: IDappActionProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { pathname } = useLocation();
 
   useEffect(() => {
     dispatch(getDeploymentStatus({ dappId }));
 
-    const interval = setInterval(() => getDeploymentStatus({ dappId }), 2000);
+    const interval = setInterval(
+      () => dispatch(getDeploymentStatus({ dappId })),
+      2000
+    );
+    return () => clearInterval(interval);
+  }, [dappId, dispatch]);
+
+  useEffect(() => {
+    dispatch(getPorts({ dappId }));
+
+    const interval = setInterval(() => dispatch(getPorts({ dappId })), 2000);
     return () => clearInterval(interval);
   }, [dappId, dispatch]);
 
@@ -35,6 +45,7 @@ export function DappActions({ dappId, dump }: IDappActionProps) {
   const { isDeploymentLoading, isDeployed } = useAppSelector(
     selectDappDeploymentInfo
   );
+  const { deploymentPorts } = useAppSelector(selectDappDeploymentPorts);
 
   const onDeployClick = useCallback(() => {
     if (dump) {
@@ -44,16 +55,19 @@ export function DappActions({ dappId, dump }: IDappActionProps) {
     }
   }, [dappId, dump, dispatch]);
 
-  const onOpenAddClick = useCallback(() => {
-    navigate(`/webpage`, {
-      state: {
-        back: {
-          navigateBack: true,
+  const onOpenAddClick = useCallback(
+    (port: number) => {
+      navigate(`/webpage/${port}`, {
+        state: {
+          back: {
+            navigateBack: true,
+          },
+          isSidebarHidden: true,
         },
-        isSidebarHidden: true,
-      },
-    });
-  }, [navigate]);
+      });
+    },
+    [navigate]
+  );
 
   if (isDeploymentLoading || dump == null) {
     return <Spin size="small" />;
@@ -73,9 +87,12 @@ export function DappActions({ dappId, dump }: IDappActionProps) {
       <Button type={isDeployed ? "dashed" : "primary"} onClick={onDeployClick}>
         {isDeployed ? "Redeploy" : "Deploy"}
       </Button>
-      {isDeployed && (
-        <Button type={"primary"} onClick={onOpenAddClick}>
-          {"Open app"}
+      {deploymentPorts?.length === 1 && (
+        <Button
+          type={"primary"}
+          onClick={() => onOpenAddClick(deploymentPorts[0].port)}
+        >
+          Open app
         </Button>
       )}
     </Space>
