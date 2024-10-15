@@ -8,7 +8,7 @@ import { DockerService } from "../docker/service";
 import { DappMarketplaceService } from "../marketplace/service";
 
 const DEPLOYED_DAPPS_STORE_PATH = normalize(
-  join(app.getPath("appData"), "deployed-dapps.json")
+  join(app.getPath("appData"), "./drew-localhost/deployed-dapps.json")
 );
 
 export class DeploymentsService {
