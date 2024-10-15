@@ -6,6 +6,7 @@ import AppLayout from "./_layout";
 const MarketplacePage = lazy(() => import("./marketplace"));
 const DappInfoPage = lazy(() => import("./dapp"));
 const RunningAppsPage = lazy(() => import("./running-apps"));
+const Webpage = lazy(() => import("./webpage"));
 
 export const Routing = () => {
   return (
@@ -27,6 +28,7 @@ export const Routing = () => {
           </AppLayout>
         }
       />
+
       <Route
         path="/dapp/:dappId"
         element={
@@ -35,6 +37,16 @@ export const Routing = () => {
           </AppLayout>
         }
       />
+
+      <Route
+        path="/webpage/:port"
+        element={
+          <AppLayout>
+            <Webpage />
+          </AppLayout>
+        }
+      />
+
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

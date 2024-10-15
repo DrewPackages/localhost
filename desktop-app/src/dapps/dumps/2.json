@@ -14,7 +14,7 @@
       "envs": {
         "UNISWAP_WEB_VERSION": "web/5.40.3",
         "PORT": "8080",
-        "DOCKER_COMPOSE_PROJECT_NAME": "drew-uniswap"
+        "DOCKER_COMPOSE_PROJECT_NAME": "drew-curve"
       },
       "workdir": ".",
       "cmd": ["-f", "docker-compose.yaml", "up", "-d", "--build"],

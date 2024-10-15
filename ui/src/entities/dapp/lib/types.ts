@@ -22,4 +22,8 @@ export interface ApiDeploymentsService {
   deploy(dappId: string, dump: FormulaExecutionDump): Promise<void>;
 
   getDeploymentStatus(dappId: string): Promise<DeploymentStatus>;
+
+  getDappDeploymentPorts(
+    dappId: string
+  ): Promise<Array<{ name: string; port: number }>>;
 }

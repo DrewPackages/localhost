@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-import { useLocation, useNavigate } from "react-router-dom";
+import { To, useLocation, useNavigate } from "react-router-dom";
 import { isBackButtonLocationState } from "../model/types";
 
 export function BackButton() {
@@ -14,7 +14,9 @@ export function BackButton() {
       <Button
         type="text"
         icon={<ArrowLeftOutlined />}
-        onClick={() => navigate(backState.backUrl)}
+        onClick={() =>
+          navigate(("navigateBack" in backState ? -1 : backState.url) as To)
+        }
       />
     );
   }

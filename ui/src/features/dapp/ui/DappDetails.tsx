@@ -62,7 +62,9 @@ export const DappDetails = ({ dappId }: IDappDetailsProps) => {
       </Space>
       <Affix offsetBottom={90} target={() => container}>
         <Card className="w-full px-10">
-          <DappActions dappId={dappId} dump={dappInfo.dump} />
+          <Space>
+            <DappActions dappId={dappId} dump={dappInfo.dump} />
+          </Space>
         </Card>
       </Affix>
     </>

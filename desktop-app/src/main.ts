@@ -16,12 +16,15 @@ const createWindow = () => {
     },
   });
 
-  wrapMainService(new DappMarketplaceService(), "dapp-marketplace");
+  const docker = new DockerService();
+  const marketplace = new DappMarketplaceService();
+
+  wrapMainService(marketplace, "dapp-marketplace");
   wrapMainService(
-    new DeploymentsService(new DumpDeployerService()),
+    new DeploymentsService(new DumpDeployerService(), marketplace, docker),
     "dump-deployer"
   );
-  wrapMainService(new DockerService(), "docker");
+  wrapMainService(docker, "docker");
 
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
