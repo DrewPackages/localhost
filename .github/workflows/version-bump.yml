@@ -1,35 +1,40 @@
 # This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
 # For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
 
-name: Executable package
+name: Node.js Package
 
 on:
-  release:
-    types: [created, edited]
+  push:
+    branches:
+      - "main"
 
 jobs:
-  build:
+  publish-npm:
     permissions:
       contents: write
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+          registry-url: https://registry.npmjs.org/
       - name: Install UI deps
         run: npm i
         working-directory: ui
       - name: Install desktop deps
         run: npm i
         working-directory: desktop-app
-      - name: Build UI
-        run: npm run build
+      - name: Check UI types
+        run: npx tsc --noEmit
         working-directory: ui
-      - name: Build Desktop
-        run: npm run build
+      - name: Check Desktoo types
+        run: npx tsc --noEmit
         working-directory: desktop-app
-      - name: Release
-        uses: softprops/action-gh-release@v2
+      - name: "Automated Version Bump"
+        uses: "phips28/gh-action-bump-version@master"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGEJSON_DIR: desktop-app
         with:
-          files: desktop-app/out/make/**/*.dmg
+          tag-prefix: "v"
