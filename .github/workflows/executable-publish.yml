@@ -17,9 +17,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - run: npm i
+      - name: Install UI deps
+        run: npm i
         working-directory: ui
-      - run: npm i
+      - name: Install desktop deps
+        run: npm i
         working-directory: desktop-app
       - name: "Automated Version Bump"
         uses: "phips28/gh-action-bump-version@master"
@@ -28,9 +30,11 @@ jobs:
           PACKAGEJSON_DIR: ./desktop-app
         with:
           tag-prefix: "v"
-      - run: npm run build
+      - name: Build UI
+        run: npm run build
         working-directory: ui
-      - run: npm run build
+      - name: Build Desktop
+        run: npm run build
         working-directory: desktop-app
       - name: Release
         uses: softprops/action-gh-release@v2
