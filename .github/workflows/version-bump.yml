@@ -28,7 +28,7 @@ jobs:
       - name: Check UI types
         run: npx tsc --noEmit
         working-directory: ui
-      - name: Check Desktoo types
+      - name: Check Desktop types
         run: npx tsc --noEmit
         working-directory: desktop-app
       - name: "Automated Version Bump"
