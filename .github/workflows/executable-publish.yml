@@ -27,7 +27,7 @@ jobs:
         run: npm run build
         working-directory: ui
       - name: Build Desktop
-        run: npm run build
+        run: npm run make
         working-directory: desktop-app
       - name: Release
         uses: softprops/action-gh-release@v2
