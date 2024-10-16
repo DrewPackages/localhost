@@ -1,44 +1,48 @@
 import type { ForgeConfig } from "@electron-forge/shared-types";
-import { MakerDMG } from "@electron-forge/maker-dmg";
 import { MakerZIP } from "@electron-forge/maker-zip";
-import { MakerDeb } from "@electron-forge/maker-deb";
-import { MakerRpm } from "@electron-forge/maker-rpm";
-import { VitePlugin } from "@electron-forge/plugin-vite";
+import { MakerDMG } from "@electron-forge/maker-dmg";
+import { AutoUnpackNativesPlugin } from "@electron-forge/plugin-auto-unpack-natives";
+import { WebpackPlugin } from "@electron-forge/plugin-webpack";
 import { FusesPlugin } from "@electron-forge/plugin-fuses";
 import { FuseV1Options, FuseVersion } from "@electron/fuses";
+
+import { mainConfig } from "./webpack.main.config";
+import { rendererConfig } from "./webpack.renderer.config";
 
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
+    name: "DrewLocalhost",
+    executableName: "DrewLocalhost",
+    icon: "./assets/drew-icon.icns",
   },
   rebuildConfig: {},
   makers: [
     new MakerZIP({}, ["darwin"]),
-    new MakerDMG(),
-    new MakerDeb(),
-    new MakerRpm(),
+    new MakerDMG({
+      name: "Drew Localhost",
+      icon: "./assets/drew-icon.icns",
+      appPath: ".drew-localhost",
+      title: "Drew Localhost",
+    }),
   ],
   plugins: [
-    new VitePlugin({
-      // `build` can specify multiple entry builds, which can be Main process, Preload scripts, Worker process, etc.
-      // If you are familiar with Vite configuration, it will look really familiar.
-      build: [
-        {
-          // `entry` is just an alias for `build.lib.entry` in the corresponding file of `config`.
-          entry: "src/main.ts",
-          config: "vite.main.config.ts",
-        },
-        {
-          entry: "src/preload.ts",
-          config: "vite.preload.config.ts",
-        },
-      ],
-      renderer: [
-        {
-          name: "main_window",
-          config: "vite.renderer.config.ts",
-        },
-      ],
+    new AutoUnpackNativesPlugin({}),
+    new WebpackPlugin({
+      mainConfig,
+      renderer: {
+        config: rendererConfig,
+        entryPoints: [
+          {
+            html: "../ui/build/index.html",
+            js: "../ui/build/static/js/renderer.js",
+            name: "main_window",
+            preload: {
+              js: "./src/preload.ts",
+            },
+          },
+        ],
+      },
     }),
     // Fuses are used to enable/disable various Electron functionality
     // at package time, before code signing the application

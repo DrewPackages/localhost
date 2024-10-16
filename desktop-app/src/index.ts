@@ -1,10 +1,13 @@
 import { app, BrowserWindow } from "electron";
-import path from "path";
 import { wrapMainService } from "./messaging/wrapMainService";
 import { DappMarketplaceService } from "./services/marketplace/service";
 import { DumpDeployerService } from "./services/dump-deployer/service";
 import { DockerService } from "./services/docker/service";
 import { DeploymentsService } from "./services/deployments/service";
+import isDev from "electron-is-dev";
+
+declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
+declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 const createWindow = () => {
   // Create the browser window.
@@ -12,7 +15,7 @@ const createWindow = () => {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
   });
 
@@ -26,17 +29,12 @@ const createWindow = () => {
   );
   wrapMainService(docker, "docker");
 
-  // and load the index.html of the app.
-  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-    mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+  if (isDev) {
+    mainWindow.loadURL("http://localhost:3001/index.html");
+    mainWindow.webContents.openDevTools();
   } else {
-    mainWindow.loadFile(
-      path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)
-    );
+    mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
   }
-
-  // Open the DevTools.
-  // mainWindow.on("show", () => mainWindow.webContents.openDevTools());
 };
 
 // This method will be called when Electron has finished
