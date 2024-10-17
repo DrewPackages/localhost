@@ -32,4 +32,6 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: desktop-app/out/make/**/*.dmg
+          files: |
+            desktop-app/out/make/**/*.dmg
+            desktop-app/out/make/zip/**/*.zip
