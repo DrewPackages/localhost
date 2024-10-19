@@ -4,6 +4,10 @@ Desktop app that streamlines DApps UI deployment process from sources on your ow
 
 Check our [site](https://localhost.drewpackages.com/)
 
+## Release app installation
+
+Currently we are working on proper DMG signing on MacOS, in the mean time you can install existing [release build](https://github.com/DrewPackages/localhost/releases/tag/release1) using a workaround described in the top-rated answer [here](https://discussions.apple.com/thread/253714860?answerId=257037956022&sortBy=rank#257037956022)
+
 ## Developer guide
 
 ### Repository structure
