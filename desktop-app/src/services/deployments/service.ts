@@ -58,6 +58,8 @@ export class DeploymentsService {
   ): Promise<Array<{ name: string; port: number }>> {
     const { dump } = await this.marketplaceService.getDappInfo(dappId);
 
-    return this.dockerService.getAvailablePortsForDump(dump);
+    return dump !== "not-provided"
+      ? this.dockerService.getAvailablePortsForDump(dump)
+      : [];
   }
 }

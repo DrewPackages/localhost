@@ -10,7 +10,7 @@ export type DappMarketplaceDescription = {
 
 export type DappInfo = {
   info: DappMarketplaceDescription;
-  dump: FormulaExecutionDump;
+  dump: FormulaExecutionDump | "not-provided";
 };
 
 export type DeploymentStatus =

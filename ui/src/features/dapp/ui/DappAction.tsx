@@ -8,13 +8,13 @@ import {
   selectDappDeploymentPorts,
   selectDappDeploymentRequestStatus,
 } from "../model/slice";
-import { Button, Space, Spin, Typography } from "antd";
+import { Button, Flex, Space, Spin, Typography } from "antd";
 import { deploy } from "../api/deploy";
 import { getPorts } from "../api/getPorts";
 
 interface IDappActionProps {
   dappId: string;
-  dump?: FormulaExecutionDump;
+  dump?: FormulaExecutionDump | "not-provided";
 }
 
 export function DappActions({ dappId, dump }: IDappActionProps) {
@@ -48,7 +48,7 @@ export function DappActions({ dappId, dump }: IDappActionProps) {
   const { deploymentPorts } = useAppSelector(selectDappDeploymentPorts);
 
   const onDeployClick = useCallback(() => {
-    if (dump) {
+    if (dump && dump !== "not-provided") {
       dispatch(deploy({ dappId, dump })).then(() =>
         dispatch(getPorts({ dappId }))
       );
@@ -69,7 +69,15 @@ export function DappActions({ dappId, dump }: IDappActionProps) {
     [navigate]
   );
 
-  if (isDeploymentLoading || dump == null) {
+  if (dump === "not-provided") {
+    return (
+      <Flex justify="center">
+        <Typography.Text strong>Work in progress</Typography.Text>
+      </Flex>
+    );
+  }
+
+  if (isDeploymentLoading && dump == null) {
     return <Spin size="small" />;
   }
 

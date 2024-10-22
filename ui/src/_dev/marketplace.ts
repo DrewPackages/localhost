@@ -62,7 +62,9 @@ export const marketplace: ApiDappMarketpaceService = {
 
   async getDappInfo(dappId): Promise<DappInfo> {
     const result = {
-      dump: defaultDump as FormulaExecutionDump,
+      dump: (dappId.toString() === "3"
+        ? "not-provided"
+        : defaultDump) as FormulaExecutionDump,
       info: hardcodedDapps.find((dapp) => dapp.id === dappId)!,
     };
     return new Promise((resolve) => {

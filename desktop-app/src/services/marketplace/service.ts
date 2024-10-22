@@ -11,11 +11,17 @@ export class DappMarketplaceService {
     return dapps.map((dapp, index) => ({ ...dapp, id: index.toString() }));
   }
 
-  private async loadDappDump(dappId: string): Promise<FormulaExecutionDump> {
-    const { default: dump }: { default: FormulaExecutionDump } = await import(
-      `../../dapps/dumps/${dappId}.json`
-    );
-    return dump;
+  private async loadDappDump(
+    dappId: string
+  ): Promise<FormulaExecutionDump | "not-provided"> {
+    try {
+      const { default: dump }: { default: FormulaExecutionDump } = await import(
+        `../../dapps/dumps/${dappId}.json`
+      );
+      return dump;
+    } catch {
+      return "not-provided";
+    }
   }
 
   async getDappsPage(
@@ -47,9 +53,10 @@ export class DappMarketplaceService {
     };
   }
 
-  async getDappInfo(
-    dappId: string
-  ): Promise<{ info: DappMarketplaceDescription; dump: FormulaExecutionDump }> {
+  async getDappInfo(dappId: string): Promise<{
+    info: DappMarketplaceDescription;
+    dump: FormulaExecutionDump | "not-provided";
+  }> {
     const loadedDapps = await this.loadAllDapps();
     return {
       info: loadedDapps[Number.parseInt(dappId)],
