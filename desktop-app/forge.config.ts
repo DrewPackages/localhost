@@ -23,14 +23,14 @@ const config: ForgeConfig = {
     new MakerSquirrel(
       {
         iconUrl: "./assets/drew-icon.icns",
-        title: "Drew Localhost",
+        title: `Drew Localhost ${process.arch}`,
         name: "Drew Localhost",
       },
-      ["win32", "win64"]
+      ["win64"]
     ),
     new MakerDMG(
       {
-        name: "Drew Localhost",
+        name: `Drew Localhost ${process.arch}`,
         icon: "./assets/drew-icon.icns",
         appPath: ".drew-localhost",
         title: "Drew Localhost",
