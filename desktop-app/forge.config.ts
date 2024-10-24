@@ -24,7 +24,7 @@ const config: ForgeConfig = {
       {
         iconUrl: "./assets/drew-icon.icns",
         title: `Drew Localhost ${process.arch}`,
-        name: "Drew Localhost",
+        name: "DrewLocalhost",
       },
       ["win32"]
     ),
