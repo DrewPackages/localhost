@@ -1,8 +1,8 @@
 import { FormulaExecutionDump } from "@drewpackages/host-common";
 import { DumpDeployerService } from "../dump-deployer/service";
 import { DeployedDappsStore, DeploymentStatus } from "./type";
-import { normalize, join } from "node:path";
-import { readFile, exists, writeFile } from "fs-extra";
+import { normalize, join, dirname } from "node:path";
+import { readFile, exists, writeFile, mkdir, pathExists } from "fs-extra";
 import { app } from "electron";
 import { DockerService } from "../docker/service";
 import { DappMarketplaceService } from "../marketplace/service";
@@ -31,6 +31,12 @@ export class DeploymentsService {
   private async persistDeployedDappsStote(
     store: DeployedDappsStore
   ): Promise<void> {
+    const dappsFileDir = dirname(DEPLOYED_DAPPS_STORE_PATH);
+
+    if (!(await pathExists(dappsFileDir))) {
+      await mkdir(dappsFileDir, { recursive: true });
+    }
+
     await writeFile(DEPLOYED_DAPPS_STORE_PATH, JSON.stringify(store, null, 2));
   }
 

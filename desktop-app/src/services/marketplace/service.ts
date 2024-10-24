@@ -15,9 +15,7 @@ export class DappMarketplaceService {
     dappId: string
   ): Promise<FormulaExecutionDump | "not-provided"> {
     try {
-      const { default: dump }: { default: FormulaExecutionDump } = await import(
-        `../../dapps/dumps/${dappId}.json`
-      );
+      const dump = await require(`../../dapps/dumps/${dappId}.json`);
       return dump;
     } catch {
       return "not-provided";

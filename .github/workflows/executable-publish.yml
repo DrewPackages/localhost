@@ -34,4 +34,6 @@ jobs:
         with:
           files: |
             desktop-app/out/make/**/*.dmg
+            desktop-app/out/make/**/*.exe
+            desktop-app/out/make/**/*.msi
             desktop-app/out/make/zip/**/*.zip

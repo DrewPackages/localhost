@@ -1,6 +1,7 @@
 import type { ForgeConfig } from "@electron-forge/shared-types";
 import { MakerZIP } from "@electron-forge/maker-zip";
 import { MakerDMG } from "@electron-forge/maker-dmg";
+import { MakerSquirrel } from "@electron-forge/maker-squirrel";
 import { AutoUnpackNativesPlugin } from "@electron-forge/plugin-auto-unpack-natives";
 import { WebpackPlugin } from "@electron-forge/plugin-webpack";
 import { FusesPlugin } from "@electron-forge/plugin-fuses";
@@ -18,13 +19,24 @@ const config: ForgeConfig = {
   },
   rebuildConfig: {},
   makers: [
-    new MakerZIP({}, ["darwin"]),
-    new MakerDMG({
-      name: "Drew Localhost",
-      icon: "./assets/drew-icon.icns",
-      appPath: ".drew-localhost",
-      title: "Drew Localhost",
-    }),
+    new MakerZIP({}, ["darwin", "win32", "win64"]),
+    new MakerSquirrel(
+      {
+        iconUrl: "./assets/drew-icon.icns",
+        title: "Drew Localhost",
+        name: "Drew Localhost",
+      },
+      ["win32", "win64"]
+    ),
+    new MakerDMG(
+      {
+        name: "Drew Localhost",
+        icon: "./assets/drew-icon.icns",
+        appPath: ".drew-localhost",
+        title: "Drew Localhost",
+      },
+      ["darwin"]
+    ),
   ],
   plugins: [
     new AutoUnpackNativesPlugin({}),
