@@ -19,7 +19,7 @@ const config: ForgeConfig = {
   },
   rebuildConfig: {},
   makers: [
-    new MakerZIP({}, ["darwin", "win32", "win64"]),
+    new MakerZIP({}, ["darwin", "win64"]),
     new MakerSquirrel(
       {
         iconUrl: "./assets/drew-icon.icns",

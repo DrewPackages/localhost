@@ -13,7 +13,7 @@ jobs:
       contents: write
     strategy:
       matrix:
-        os: [macos-latest, windows-latest]
+        os: [macos-latest, macos-13, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
