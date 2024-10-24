@@ -22,7 +22,6 @@ const config: ForgeConfig = {
     new MakerZIP({}, ["darwin", "win32"]),
     new MakerSquirrel(
       {
-        iconUrl: "./assets/drew-icon.icns",
         title: `Drew Localhost ${process.arch}`,
         name: "DrewLocalhost",
       },
