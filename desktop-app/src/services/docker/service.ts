@@ -16,56 +16,93 @@ export class DockerService {
     }
   }
 
-  private tryGetDockerComposeProjectName(
-    dump: FormulaExecutionDump
-  ): Record<number, string> {
-    return Object.fromEntries(
-      dump.instructions
-        .map((instruction, index) => ({ index, ...instruction }))
-        .filter(
-          (i) =>
-            i.type === "offchain" &&
-            i.image === "ghcr.io/drewpackages/engine/workers/docker-compose"
-        )
-        .map(({ index, envs }) => {
-          if (
-            "DOCKER_COMPOSE_PROJECT_NAME" in envs &&
-            typeof envs.DOCKER_COMPOSE_PROJECT_NAME === "string"
-          ) {
-            return [index, envs.DOCKER_COMPOSE_PROJECT_NAME];
-          }
-
-          if ("DREW_WORKDIR" in envs && typeof envs.DREW_WORKDIR === "string") {
-            return [index, basename(envs.DREW_WORKDIR)];
-          }
-        })
-        .filter(Boolean)
-    );
-  }
-
-  async getAvailablePortsForDump(
-    dump: FormulaExecutionDump
+  async getAvailablePortsForContainers(
+    containerIds: Array<string>
   ): Promise<Array<{ name: string; port: number }>> {
-    const dockerComposePrefixes = Object.values(
-      this.tryGetDockerComposeProjectName(dump)
-    );
-
-    if (dockerComposePrefixes.length === 0) {
-      return [];
-    }
-
     const docker = new Dockerode(this.dockerConnectionOps);
 
     const allContainers = await docker.listContainers();
+
     return allContainers
-      .filter(
-        (c) =>
-          "com.docker.compose.project" in c.Labels &&
-          dockerComposePrefixes.includes(c.Labels["com.docker.compose.project"])
-      )
+      .filter(({ Id }) => containerIds.some((id) => Id.startsWith(id)))
       .flatMap<any, [string, number]>((c) =>
         c.Ports.map((port) => [c.Labels["com.docker.compose.service"], port])
       )
       .map(([name, port]) => ({ name, port: port.PublicPort }));
+  }
+
+  async getContainersStatus(containerIds: Array<string>): Promise<
+    Array<{
+      containerId: string;
+      status: "running" | "paused" | "not-found";
+    }>
+  > {
+    const docker = new Dockerode(this.dockerConnectionOps);
+
+    const allContainers = (await docker.listContainers({ all: true })).filter(
+      ({ Id }) => containerIds.some((id) => Id.startsWith(id))
+    );
+
+    return containerIds.map((id) => {
+      const container = allContainers.find((c) => c.Id.startsWith(id));
+
+      const status =
+        container == null
+          ? "not-found"
+          : container.State.toLowerCase() === "running"
+          ? "running"
+          : "paused";
+      return { containerId: id, status };
+    });
+  }
+
+  async deleteContainers(ids: Array<string>) {
+    const docker = new Dockerode(this.dockerConnectionOps);
+
+    for (const containerId of ids) {
+      await docker.getContainer(containerId).kill();
+      await docker.getContainer(containerId).remove();
+    }
+  }
+
+  async pauseContainers(ids: Array<string>) {
+    const docker = new Dockerode(this.dockerConnectionOps);
+
+    for (const containerId of ids) {
+      const info = await docker.getContainer(containerId).inspect();
+      if (info.State.Status.toLowerCase() === "running") {
+        await docker.getContainer(containerId).stop();
+      }
+    }
+  }
+
+  async startContainers(ids: Array<string>) {
+    const docker = new Dockerode(this.dockerConnectionOps);
+
+    for (const containerId of ids) {
+      const info = await docker.getContainer(containerId).inspect();
+      if (
+        ["running", "created", "exited"].includes(
+          info.State.Status.toLowerCase()
+        )
+      ) {
+        await docker.getContainer(containerId).start();
+      }
+    }
+  }
+
+  static getContainerIdsFromState(
+    resolvedValues: FormulaExecutionDump["state"]["resolvedValues"]
+  ): Array<string> {
+    return Object.entries(resolvedValues)
+      .filter(
+        ([name, value]) =>
+          name.startsWith("dockerCompose") &&
+          name.endsWith(":containerIds") &&
+          typeof value === "string"
+      )
+      .flatMap(([_, value]) => (value as string).split("\n"))
+      .map((v) => v.trim())
+      .filter(Boolean);
   }
 }

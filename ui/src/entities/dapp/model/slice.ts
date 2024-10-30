@@ -12,6 +12,7 @@ const initialState: SelectedDappState = {
   },
   ports: {
     isPortsLoading: false,
+    deploymentPorts: {},
   },
 };
 
@@ -57,10 +58,21 @@ export const dappSlice = createSlice({
       .addCase(getPorts.rejected, (state) => {
         state.ports.isPortsLoading = false;
       })
-      .addCase(getPorts.fulfilled, (state, { payload }) => {
-        state.ports.isPortsLoading = false;
-        state.ports.deploymentPorts = payload;
-      }),
+      .addCase(
+        getPorts.fulfilled,
+        (
+          state,
+          {
+            payload,
+            meta: {
+              arg: { dappId },
+            },
+          }
+        ) => {
+          state.ports.isPortsLoading = false;
+          state.ports.deploymentPorts[dappId] = payload;
+        }
+      ),
 });
 
 export const selectDappInfo = (state: RootState) => state.dapp.dappInfo;

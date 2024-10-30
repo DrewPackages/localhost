@@ -3,7 +3,7 @@
     "storage": {}
   },
   "state": {
-    "outputIds": [],
+    "outputIds": ["dockerCompose/1/up:0:containerIds"],
     "resolvedValues": {}
   },
   "executedSteps": 0,
@@ -17,7 +17,17 @@
       },
       "workdir": ".",
       "cmd": ["-f", "docker-compose.yaml", "up", "-d", "--build"],
-      "dind": true
+      "dind": true,
+      "outputs": [
+        {
+          "id": "dockerCompose/1/up:0:containerIds",
+          "extract": {
+            "type": "regex",
+            "expr": "CONTAINER ID\n(?<containerIds>([a-f0-9]+\n?)*)",
+            "groupName": "containerIds"
+          }
+        }
+      ]
     }
   ],
   "formulaName": "DrewPackages/curve-formula@190e7540ff0387acd04ecb658a6211c1bc656fb2"

@@ -5,6 +5,10 @@ import { DeployRequest } from "./types";
 export const deploy = createAsyncThunk(
   "dapp/deploy",
   async ({ dappId, dump }: DeployRequest): Promise<void> => {
-    return service.deployer.deploy(dappId, dump);
+    if (dappId != null && dappId.length > 0) {
+      return service.deployer.deploy(dappId, dump);
+    }
+
+    throw new Error("Sent without dappId");
   }
 );

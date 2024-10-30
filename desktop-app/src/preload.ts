@@ -11,7 +11,15 @@ const localhostService = {
   }),
   deployer: registerRendererService({
     channelName: "dump-deployer",
-    methodNames: ["getDeploymentStatus", "deploy", "getDappDeploymentPorts"],
+    methodNames: [
+      "getDeploymentStatus",
+      "deploy",
+      "getDappDeploymentPorts",
+      "getDeployedDappsPage",
+      "deleteDeployment",
+      "stopDeployment",
+      "startDeployment",
+    ],
   }),
   docker: registerRendererService({
     channelName: "docker",

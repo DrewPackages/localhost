@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { Layout, Menu } from 'antd';
-import { HomeOutlined, AppstoreOutlined } from '@ant-design/icons';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState } from "react";
+import { Layout, Menu } from "antd";
+import { HomeOutlined, AppstoreOutlined } from "@ant-design/icons";
+import { Link, useLocation } from "react-router-dom";
 
 const { Sider } = Layout;
 
 export const Sidebar: React.FC = () => {
   const location = useLocation();
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   const isSidebarHidden = location.state?.isSidebarHidden;
 
@@ -21,11 +21,7 @@ export const Sidebar: React.FC = () => {
       onCollapse={(value) => setCollapsed(value)}
       className="h-screen"
     >
-      <Menu
-        mode="inline"
-        selectedKeys={[location.pathname]}
-        className="mt-4"
-      >
+      <Menu mode="inline" selectedKeys={[location.pathname]} className="mt-4">
         <Menu.Item key="/" icon={<HomeOutlined />}>
           <Link to="/">Home</Link>
         </Menu.Item>

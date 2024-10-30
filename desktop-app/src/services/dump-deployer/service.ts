@@ -39,7 +39,11 @@ export class DumpDeployerService {
         state.addResolvedValues(outputs);
       }
       if (instruction.type === "offchain") {
-        await offchain.runStage(formulaNameWithoutRev, instruction);
+        const outputs = await offchain.runStage(
+          formulaNameWithoutRev,
+          instruction
+        );
+        state.addResolvedValues(outputs);
       }
     }
 

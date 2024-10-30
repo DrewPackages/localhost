@@ -8,6 +8,10 @@ export const getDeploymentStatus = createAsyncThunk(
   async ({
     dappId,
   }: DappDeploymentStatusRequest): Promise<DeploymentStatus> => {
-    return service.deployer.getDeploymentStatus(dappId);
+    if (dappId != null && dappId.length > 0) {
+      return service.deployer.getDeploymentStatus(dappId);
+    }
+
+    throw new Error("Sent without dappId");
   }
 );

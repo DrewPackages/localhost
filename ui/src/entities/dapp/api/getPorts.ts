@@ -5,6 +5,10 @@ import { DappDeploymentPortsRequest } from "./types";
 export const getPorts = createAsyncThunk(
   "dapp/getPorts",
   async ({ dappId }: DappDeploymentPortsRequest) => {
-    return service.deployer.getDappDeploymentPorts(dappId);
+    if (dappId != null && dappId.length > 0) {
+      return service.deployer.getDappDeploymentPorts(dappId);
+    }
+
+    throw new Error("Sent without dappId");
   }
 );

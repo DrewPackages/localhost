@@ -1,4 +1,4 @@
-import { Image, Space, Typography } from "antd";
+import { Image, Space, SpaceProps, Typography } from "antd";
 import React from "react";
 
 interface IDappIconProps {
@@ -6,6 +6,7 @@ interface IDappIconProps {
   name?: string;
   active?: boolean;
   onClick?: () => void;
+  direction?: SpaceProps["direction"];
 }
 
 export const DappIcon = ({
@@ -13,12 +14,14 @@ export const DappIcon = ({
   imageUrl,
   name,
   onClick,
+  direction = "vertical",
 }: IDappIconProps) => {
   return (
     <Space
-      direction="vertical"
+      direction={direction}
       className="flex justify-center"
       classNames={{ item: "self-center" }}
+      size={direction === "horizontal" ? "middle" : undefined}
     >
       <Image
         height={56}

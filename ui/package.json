@@ -52,7 +52,7 @@
   "devDependencies": {
     "@craco/craco": "^7.1.0",
     "@craco/types": "^7.1.0",
-    "@drewpackages/host-common": "^1.0.4",
+    "@drewpackages/host-common": "^1.2.1",
     "@types/compose-function": "^0.0.33",
     "html-inline-css-webpack-plugin": "^1.11.2",
     "prop-types": "^15.8.1",

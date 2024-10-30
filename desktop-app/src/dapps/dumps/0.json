@@ -3,7 +3,7 @@
     "storage": {}
   },
   "state": {
-    "outputIds": [],
+    "outputIds": ["dockerCompose/1/up:0:containerIds"],
     "resolvedValues": {}
   },
   "executedSteps": 0,
@@ -18,7 +18,17 @@
       },
       "workdir": ".",
       "cmd": ["-f", "docker-compose.yaml", "up", "-d", "--build"],
-      "dind": true
+      "dind": true,
+      "outputs": [
+        {
+          "id": "dockerCompose/1/up:0:containerIds",
+          "extract": {
+            "type": "regex",
+            "expr": "CONTAINER ID\n(?<containerIds>([a-f0-9]+\n?)*)",
+            "groupName": "containerIds"
+          }
+        }
+      ]
     }
   ],
   "formulaName": "DrewPackages/uniswap-formula@b3fe37161ba0a3626e820bc2f6220bcbd10be749"

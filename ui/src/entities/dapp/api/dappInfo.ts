@@ -6,6 +6,10 @@ import { DappInfo } from "entities/dapp";
 export const getDappInfo = createAsyncThunk(
   "dapp/getDappInfo",
   async ({ dappId }: DappFormulaDumpRequest): Promise<DappInfo> => {
-    return service.marketplace.getDappInfo(dappId);
+    if (dappId != null && dappId.length > 0) {
+      return service.marketplace.getDappInfo(dappId);
+    }
+
+    throw new Error("Sent without dappId");
   }
 );

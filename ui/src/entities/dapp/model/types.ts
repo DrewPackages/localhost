@@ -10,6 +10,6 @@ export interface SelectedDappState {
   deployRequestInFlight?: boolean;
   ports: {
     isPortsLoading: boolean;
-    deploymentPorts?: Array<{ name: string; port: number }>;
+    deploymentPorts: Record<string, Array<{ name: string; port: number }>>;
   };
 }

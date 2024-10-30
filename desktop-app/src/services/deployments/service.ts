@@ -1,71 +1,153 @@
 import { FormulaExecutionDump } from "@drewpackages/host-common";
 import { DumpDeployerService } from "../dump-deployer/service";
-import { DeployedDappsStore, DeploymentStatus } from "./type";
-import { normalize, join, dirname } from "node:path";
-import { readFile, exists, writeFile, mkdir, pathExists } from "fs-extra";
-import { app } from "electron";
+import {
+  DeployedDappPage,
+  DeployedDappPageItem,
+  DeployedDappStatus,
+  DeploymentStatus,
+} from "./type";
+import Datastore from "nedb-promises";
 import { DockerService } from "../docker/service";
 import { DappMarketplaceService } from "../marketplace/service";
+import {
+  createAppDataSource,
+  getAppDataPath,
+} from "../../persistence/app-data.service";
 
-const DEPLOYED_DAPPS_STORE_PATH = normalize(
-  join(app.getPath("appData"), "./drew-localhost/deployed-dapps.json")
-);
+const DEPLOYED_DAPPS_STORE_PATH = getAppDataPath("deployments.json");
 
 export class DeploymentsService {
+  private readonly db: Datastore<DeployedDappStatus>;
+
   constructor(
     private readonly dumpDeployer: DumpDeployerService,
     private readonly marketplaceService: DappMarketplaceService,
     private readonly dockerService: DockerService
-  ) {}
-
-  private async loadDeployedDappsStote(): Promise<DeployedDappsStore> {
-    const storeFileExists = await exists(DEPLOYED_DAPPS_STORE_PATH);
-
-    const storeText = storeFileExists
-      ? (await readFile(DEPLOYED_DAPPS_STORE_PATH)).toString("utf-8")
-      : "{}";
-
-    return JSON.parse(storeText);
-  }
-
-  private async persistDeployedDappsStote(
-    store: DeployedDappsStore
-  ): Promise<void> {
-    const dappsFileDir = dirname(DEPLOYED_DAPPS_STORE_PATH);
-
-    if (!(await pathExists(dappsFileDir))) {
-      await mkdir(dappsFileDir, { recursive: true });
-    }
-
-    await writeFile(DEPLOYED_DAPPS_STORE_PATH, JSON.stringify(store, null, 2));
+  ) {
+    this.db = createAppDataSource(DEPLOYED_DAPPS_STORE_PATH);
   }
 
   async deploy(dappId: string, dump: FormulaExecutionDump) {
-    const store = await this.loadDeployedDappsStote();
-
     const state = await this.dumpDeployer.executeDump(dump);
 
-    store[dappId] = {
-      status: "deployed",
-      postExecutionState: state,
-    };
-
-    await this.persistDeployedDappsStote(store);
+    await this.db.updateOne(
+      { dappId: dappId.toString() },
+      {
+        dappId: dappId.toString(),
+        status: "deployed",
+        postExecutionState: state,
+      },
+      { upsert: true }
+    );
   }
 
   async getDeploymentStatus(dappId: string): Promise<DeploymentStatus> {
-    const store = await this.loadDeployedDappsStote();
+    const fetched = await this.db.findOne({ dappId: dappId.toString() }).exec();
 
-    return store?.[dappId] || { status: "not-found" };
+    if (fetched == null) {
+      return { status: "not-found" };
+    }
+
+    const { postExecutionState, status } = fetched;
+
+    return { dappId, postExecutionState, status };
   }
 
   async getDappDeploymentPorts(
     dappId: string
   ): Promise<Array<{ name: string; port: number }>> {
-    const { dump } = await this.marketplaceService.getDappInfo(dappId);
+    const fetched = await this.getDeploymentStatus(dappId);
 
-    return dump !== "not-provided"
-      ? this.dockerService.getAvailablePortsForDump(dump)
-      : [];
+    if (fetched.status === "not-found") {
+      return [];
+    }
+
+    return this.dockerService.getAvailablePortsForContainers(
+      DockerService.getContainerIdsFromState(
+        fetched.postExecutionState.resolvedValues
+      )
+    );
+  }
+
+  async getDeployedDappsPage({
+    page,
+    pageSize,
+  }: {
+    page: number;
+    pageSize: number;
+  }): Promise<DeployedDappPage> {
+    const totalItems = await this.db.count({
+      status: "deployed",
+    });
+    const itemsRaw = await this.db
+      .find({
+        status: "deployed",
+      })
+      .limit(pageSize)
+      .skip(page * pageSize)
+      .exec();
+
+    const items: Array<DeployedDappPageItem> = await Promise.all(
+      itemsRaw.map(async ({ dappId, postExecutionState }) => {
+        const {
+          info: { name, categories, logoUrl },
+        } = await this.marketplaceService.getDappInfo(dappId);
+        const containers = await this.dockerService.getContainersStatus(
+          DockerService.getContainerIdsFromState(
+            postExecutionState.resolvedValues
+          )
+        );
+        return {
+          id: dappId,
+          name,
+          categories,
+          logoUrl,
+          containers,
+        };
+      })
+    );
+
+    return {
+      items,
+      totalItems,
+    };
+  }
+
+  async deleteDeployment(dappId: string) {
+    const fetched = await this.db.findOne({ dappId: dappId.toString() }).exec();
+
+    if (fetched) {
+      const containers = DockerService.getContainerIdsFromState(
+        fetched.postExecutionState.resolvedValues
+      );
+
+      await this.dockerService.deleteContainers(containers);
+
+      await this.db.removeOne({ dappId: dappId.toString() }, {});
+    }
+  }
+
+  async stopDeployment(dappId: string) {
+    const fetched = await this.db.findOne({ dappId: dappId.toString() }).exec();
+
+    if (fetched) {
+      const containers = DockerService.getContainerIdsFromState(
+        fetched.postExecutionState.resolvedValues
+      );
+
+      await this.dockerService.pauseContainers(containers);
+    }
+  }
+
+  async startDeployment(dappId: string) {
+    const fetched = await this.db.findOne({ dappId: dappId.toString() }).exec();
+
+    if (fetched) {
+      const containers = DockerService.getContainerIdsFromState(
+        fetched.postExecutionState.resolvedValues
+      );
+
+      await this.dockerService.startContainers(containers);
+    }
   }
 }

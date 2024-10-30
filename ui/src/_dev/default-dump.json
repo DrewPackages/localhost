@@ -17,7 +17,8 @@
       },
       "workdir": ".",
       "cmd": ["-f", "docker-compose.yaml", "up", "-d", "--build"],
-      "dind": true
+      "dind": true,
+      "outputs": []
     }
   ],
   "formulaName": "DrewPackages/uniswap-formula@5944588637352669d91101ef2de73d7237b55858"

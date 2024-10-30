@@ -1,10 +1,8 @@
 import { normalize, join } from "node:path";
-import { app } from "electron";
 import { existsSync, mkdirSync } from "fs-extra";
+import { getAppDataPath } from "../../persistence/app-data.service";
 
-export const FORMULAS_DIR = normalize(
-  join(app.getPath("appData"), `/.drew-localhost/formulas`)
-);
+export const FORMULAS_DIR = getAppDataPath("formulas");
 
 if (!existsSync(FORMULAS_DIR)) {
   mkdirSync(FORMULAS_DIR, { recursive: true });
