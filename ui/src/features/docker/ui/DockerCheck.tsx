@@ -3,6 +3,7 @@ import { Spin, Button, Typography } from "antd";
 import { useAppDispatch, useAppSelector } from "shared/model/hooks";
 import { selectDockerAvailability } from "../model/slice";
 import { checkDockerAvailability } from "../api/check";
+import service from "localhostService";
 
 export const DockerCheck: React.FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch();
@@ -37,8 +38,24 @@ export const DockerCheck: React.FC<PropsWithChildren> = ({ children }) => {
           <Typography.Title level={3} className="text-3xl font-bold mb-6">
             Ooops! We can't connect the docker
           </Typography.Title>
-          <div className="flex justify-center items-center w-full h-full">
+          <div className="flex justify-center items-center w-full h-full flex-col">
             <Button onClick={checkAgainClickHandler}>Try again</Button>
+            <Button
+              type="link"
+              onClick={() =>
+                service.openUrlInBrowser({
+                  win32:
+                    "https://docs.docker.com/desktop/install/windows-install/",
+                  darwin:
+                    "https://docs.docker.com/desktop/install/mac-install/",
+                  default:
+                    "https://docs.docker.com/desktop/install/windows-install/",
+                })
+              }
+              className="mt-3"
+            >
+              Or install it
+            </Button>
           </div>
         </div>
       </div>

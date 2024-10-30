@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain, shell } from "electron";
 import { wrapMainService } from "./messaging/wrapMainService";
 import { DappMarketplaceService } from "./services/marketplace/service";
 import { DumpDeployerService } from "./services/dump-deployer/service";
@@ -33,6 +33,16 @@ const createWindow = () => {
     "dump-deployer"
   );
   wrapMainService(docker, "docker");
+  ipcMain.handle(
+    "open-url-in-browser",
+    (_, url: string | Record<string, string>) => {
+      if (typeof url === "string") {
+        shell.openExternal(url);
+      } else if (typeof url === "object") {
+        shell.openExternal(url[process.platform] || url.default);
+      }
+    }
+  );
 
   if (isDev) {
     mainWindow.loadURL("http://localhost:3001/index.html");
