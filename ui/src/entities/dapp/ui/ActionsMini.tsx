@@ -4,7 +4,7 @@ import {
   FullscreenOutlined,
   PauseOutlined,
 } from "@ant-design/icons";
-import { Button, Space } from "antd";
+import { Button, Space, Tooltip } from "antd";
 import { FC } from "react";
 
 interface ActionsMiniProps {
@@ -25,24 +25,36 @@ export const ActionsMini: FC<ActionsMiniProps> = ({
   return (
     <Space>
       {status === "running" && (
-        <Button
-          type="text"
-          icon={<FullscreenOutlined />}
-          onClick={onOpenClick}
-        />
+        <Tooltip title="Open">
+          <Button
+            type="text"
+            icon={<FullscreenOutlined />}
+            onClick={onOpenClick}
+          />
+        </Tooltip>
       )}
       {status === "running" && (
-        <Button type="text" icon={<PauseOutlined />} onClick={onPauseClick} />
+        <Tooltip title="Pause">
+          <Button type="text" icon={<PauseOutlined />} onClick={onPauseClick} />
+        </Tooltip>
       )}
       {status === "paused" && (
-        <Button
-          type="text"
-          icon={<CaretRightOutlined />}
-          onClick={onStartClick}
-        />
+        <Tooltip title="Start">
+          <Button
+            type="text"
+            icon={<CaretRightOutlined />}
+            onClick={onStartClick}
+          />
+        </Tooltip>
       )}
       {status !== "deleted" && (
-        <Button type="text" icon={<DeleteOutlined />} onClick={onDeleteClick} />
+        <Tooltip title="Delete">
+          <Button
+            type="text"
+            icon={<DeleteOutlined />}
+            onClick={onDeleteClick}
+          />
+        </Tooltip>
       )}
     </Space>
   );
