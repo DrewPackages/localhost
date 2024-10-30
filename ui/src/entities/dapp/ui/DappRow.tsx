@@ -31,10 +31,10 @@ export const DappRow: FC<DappRowProps> = ({
 }) => {
   return (
     <Row className="w-full" align="middle">
-      <Col xl={{ span: 4 }} md={6}>
+      <Col xl={{ span: 4 }} xs={6}>
         <DappIcon imageUrl={logoUrl} name={name} direction="horizontal" />
       </Col>
-      <Col xl={{ span: 3 }} md={5}>
+      <Col xl={{ span: 3 }} xs={5}>
         <Tag
           color={state === "running" ? "green" : undefined}
           icon={
@@ -48,7 +48,7 @@ export const DappRow: FC<DappRowProps> = ({
           {state}
         </Tag>
       </Col>
-      <Col xl={{ span: 9 }} md={{ span: 4, offset: 2 }}>
+      <Col xl={{ span: 9 }} xs={{ span: 4, offset: 2 }}>
         <Space>
           {categories
             .slice(0, Math.min(categories.length, MAX_CATEGORY_TAGS_COUNT))
@@ -60,7 +60,7 @@ export const DappRow: FC<DappRowProps> = ({
           )}
         </Space>
       </Col>
-      <Col xl={{ span: 2, offset: 4 }} md={{ span: 3, offset: 2 }}>
+      <Col xl={{ span: 2, offset: 4 }} xs={{ span: 3, offset: 2 }}>
         <ActionsMini
           status={state}
           onDeleteClick={() => onDeleteClick?.(id)}
