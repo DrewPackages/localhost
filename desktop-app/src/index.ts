@@ -4,6 +4,7 @@ import { DappMarketplaceService } from "./services/marketplace/service";
 import { DumpDeployerService } from "./services/dump-deployer/service";
 import { DockerService } from "./services/docker/service";
 import { DeploymentsService } from "./services/deployments/service";
+import packageJson from "../package.json";
 import isDev from "electron-is-dev";
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
@@ -43,6 +44,7 @@ const createWindow = () => {
       }
     }
   );
+  ipcMain.handle("get-app-version", () => packageJson.version);
 
   if (isDev) {
     mainWindow.loadURL("http://localhost:3001/index.html");

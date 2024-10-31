@@ -28,6 +28,9 @@ const localhostService = {
   openUrlInBrowser(url: string) {
     ipcRenderer.invoke("open-url-in-browser", url);
   },
+  appVersion(): Promise<string> {
+    return ipcRenderer.invoke("get-app-version");
+  },
 };
 
 contextBridge.exposeInMainWorld("localhostService", localhostService);
