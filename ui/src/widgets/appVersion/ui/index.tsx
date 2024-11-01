@@ -11,6 +11,7 @@ export const AppVersion: FC = () => {
 
   useEffect(() => {
     dispatch(fetch());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
