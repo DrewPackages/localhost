@@ -1,7 +1,7 @@
 {
   "name": "desktop-app-webpack",
   "productName": "desktop-app-webpack",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "My Electron application description",
   "main": ".webpack/main",
   "scripts": {
