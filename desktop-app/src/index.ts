@@ -34,6 +34,7 @@ const createWindow = () => {
     "dump-deployer"
   );
   wrapMainService(docker, "docker");
+  ipcMain.removeHandler("open-url-in-browser");
   ipcMain.handle(
     "open-url-in-browser",
     (_, url: string | Record<string, string>) => {
@@ -44,6 +45,7 @@ const createWindow = () => {
       }
     }
   );
+  ipcMain.removeHandler("get-app-version");
   ipcMain.handle("get-app-version", () => packageJson.version);
 
   if (isDev) {
